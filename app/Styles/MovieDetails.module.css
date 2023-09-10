@@ -1,0 +1,278 @@
+.container{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow-y: hidden;
+}
+.container img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.overlay{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to right, rgba(31.5, 10.5, 10.5, 1) calc((50vw - 170px) - 340px), rgba(31.5, 10.5, 10.5, 0.84) 50%, rgba(31.5, 10.5, 10.5, 0.84) 100%);
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding: 0 2vmax;
+}
+
+.poster{
+    width: 35vmax;
+    height: 38vmax;
+    /* background-color: antiquewhite; */
+}
+
+.poster img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.movieDetails{
+    color: #fff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.dates p{
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.dot{
+    font-size: 30px;
+}
+
+.userScore{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.vote{
+    position: relative;
+    width: 6vmax;
+    height: 6vmax;
+    background-color: #081C22;
+    border-radius: 50%;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+    font-size: 1.6vmax;
+}
+
+.icons{
+    width: 3.5vmax;
+    height: 3.5vmax;
+    background-color: #032541;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.tagline{
+    font-style: italic;
+    opacity: .6;
+}
+
+.trailer{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.play{
+    font-size: 2vmax;
+}
+
+.video{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.345);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.cross{
+    color: #dadada;
+    font-size: 2vmax;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+}
+
+.videoContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 10px;
+    width: 70%;
+    height: 90%;
+    background-color: #000;
+    border-radius: 10px;
+}
+
+.player{
+    width: 100%;
+    height: 90%;
+}
+
+.video iframe{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    overflow: none;
+    border: none;
+}
+
+.crew{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.director{
+    margin-right: 50px;
+}
+
+.castNrevenue{
+    display: flex;
+    width: 100%;
+    /* min-height: 80vh; */
+    background-color: #fff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.cast{
+    position: relative;
+    width: 70%;
+    /* background-color: red; */
+    height: fit-content;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.cast>h2{
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.castBox{
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.cast::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px; /* Adjust the width of the gradient fade */
+    height: 100%;
+    background: linear-gradient(to right, transparent, white);
+    pointer-events: none; /* Prevent the gradient from blocking interactions */
+}
+
+.castBox::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+.castBox::-webkit-scrollbar
+{
+	/* width: 5px; */
+	background-color: #F5F5F5;
+}
+
+.castBox::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #DBDBDB;
+}
+
+.castProfile{
+    margin-right: 30px;
+    display: inline-block;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 12vmax;
+}
+
+.top{
+    width: 100%;
+    height: 15vmax;
+    background-image: url(https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-4-user-grey-d8fe957375e70239d6abdd549fd7568c89281b2179b5f4470e2e12895792dfa5.svg);
+    background-size: cover;
+    background-position: center;
+}
+
+.top img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.bottom{
+    /* width: 100%; */
+    padding: 10px;
+}
+
+.bottom h4{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bottom h5{
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.revenue{
+    padding-top: 60px;
+    padding-left: 50px;
+    width: 30%;
+    /* background-color: #032541; */
+}
+
+.original{
+    margin-bottom: 30px;
+}
+
+.original h4{
+    font-weight: 600;
+}
