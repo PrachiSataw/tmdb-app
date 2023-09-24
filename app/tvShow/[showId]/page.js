@@ -5,24 +5,33 @@ import axios from "axios"
 import { useEffect, useRef, useState } from "react"
 import { TfiMenuAlt } from "react-icons/tfi";
 import { AiFillHeart } from "react-icons/ai";
+import { BiPlay } from "react-icons/bi"
+import { FaTimes } from 'react-icons/fa';
 import { BiSolidBookmark,BiSolidStar } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux"
 import Nav from "@/components/Nav"
 import { asyncGetTvShowsDetails } from "@/store/Actions/tvShowsAction"
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import dynamic from "next/dynamic";
+
+const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
 
 const page = (props) => {
 
   const [crew, setcrew] = useState([])
   const [cast, setcast] = useState([])
+  const [trailer, setTrailer] = useState(null);
 
   const video = useRef(null)
   const iframeVideo = useRef(null)
 
   const {showId} = props.params
   const {TvShowsDetails} = useSelector((state) => state.TvShowsReducer)
-  const trailer = TvShowsDetails.videos?.results.find((video) => video.type === "Trailer")
+  const [showPlayer, setShowPlayer] = useState(false);
+  console.log(  "triiirrrrrrrrrrr",trailer);
   console.log(TvShowsDetails);
   const dispatch = useDispatch()
 
@@ -31,6 +40,25 @@ const page = (props) => {
     castNcrew()
   },[])
 
+  useEffect(() => {
+    const trailerIndex = TvShowsDetails?.videos?.results?.findIndex(
+      (element) => element.type === "Trailer"
+    );
+    const trailerURL = `https://www.youtube.com/watch?v=${
+      TvShowsDetails?.videos?.results[trailerIndex || 0]?.key
+    }`;
+    setTrailer(trailerURL);
+  }, [TvShowsDetails]);
+
+  const trailerOpenHandler = () => {
+    video.current.style.display = "flex"
+    setShowPlayer(true)
+  }
+
+  const trailerCloseHandler = () => {
+    video.current.style.display = "none"
+    setShowPlayer(false)
+  }
 
   const imgErrorHandler = (e) => {
     e.target.style.display = "none"
@@ -45,7 +73,7 @@ const page = (props) => {
     
   }
 
-//   console.log(crew);
+  // console.log(cast);
 
 
   
@@ -67,7 +95,19 @@ const page = (props) => {
             </div>
             <div className={styles.userScore}>
               <div className={styles.vote}>
-                {Math.floor(TvShowsDetails.vote_average*10)} <sup>%</sup>
+                {/* {Math.floor(TvShowsDetails.vote_average*10)} <sup>%</sup> */}
+                <CircularProgressbar 
+                            value={Math.floor(TvShowsDetails.vote_average*10)}
+                            text={`${Math.floor(TvShowsDetails.vote_average*10)}%`}
+                            styles={buildStyles({
+                              pathColor: `#fff, ${
+                                Math.floor(TvShowsDetails.vote_average*10)/ 100
+                              })`,
+                              textColor:'#fff',
+                              trailColor: '#d6d6d6',
+                              backgroundColor: '#3e98c7'
+                            })}
+                          />
               </div>
               <h3>User<br />Score</h3>
               <div className={styles.icons}>
@@ -81,6 +121,9 @@ const page = (props) => {
               </div>
               <div className={styles.icons}>
                 <BiSolidStar />
+              </div>
+              <div onClick={trailerOpenHandler} className={styles.trailer}>
+                <BiPlay className={styles.play} /> Play Trailer
               </div>
 
             </div>
@@ -104,6 +147,21 @@ const page = (props) => {
           </div>
         </div>
         
+      </div>
+      <div ref={video} className={styles.video}>
+        <div className={styles.videoContainer}>
+          <FaTimes onClick={trailerCloseHandler} className={styles.cross} />
+          <div className={styles.player}>
+          <ReactPlayer
+            url={trailer}
+            width="100%"
+            height="100%"
+            controls={true}
+            playsinline={true}
+            playing={showPlayer}
+          />
+          </div>
+        </div>
       </div>
       <div className={styles.castNrevenue}>
         <div className={styles.cast}>

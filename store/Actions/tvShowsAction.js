@@ -1,6 +1,7 @@
 import axios from "axios";
-import { saveTvShows, saveTrendingTvShows, saveTvShowsDetails } from "../Reducers/TvShowsReducer";
-import { adderrors } from "../Reducers/MovieReducer";
+import { saveTvShows,  saveTvShowsDetails } from "../Reducers/TvShowsReducer";
+import { adderrors, changepage } from "../Reducers/MovieReducer";
+import { saveTrendingTvShows } from "../Reducers/TvShowsReducer";
 
 
 export const getAsyncTrendingTvShows = () => async (dispatch, getState) => {
@@ -19,10 +20,12 @@ export const getAsyncTrendingTvShows = () => async (dispatch, getState) => {
     }
   };
 
-export const getAsyncTvShows = (click) => async(dispatch,getState) => {
+export const getAsyncTvShows = (click, page) => async(dispatch,getState) => {
     try {
         const {page} = getState().MovieReducer
-        const {data} = await axios.get(`https://api.themoviedb.org/3/tv/${click}?api_key=cb5b8941851804e0ea85baa6348e29b3&page=${page}`)
+        const {data} = await axios.get(
+          `https://api.themoviedb.org/3/tv/${click}?api_key=cb5b8941851804e0ea85baa6348e29b3&page=${page}`
+          )
         dispatch(saveTvShows(data.results))
         console.log(data)
     } catch (error) {
@@ -30,6 +33,8 @@ export const getAsyncTvShows = (click) => async(dispatch,getState) => {
         console.log(error)
     }
 }
+
+
 
 export const asyncGetTvShowsDetails = (tvShowId) => async(dispatch,getState) => {
     try {

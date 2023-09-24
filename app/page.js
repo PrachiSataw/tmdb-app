@@ -1,4 +1,5 @@
 "use client";
+
 import Nav from "@/components/Nav"
 import Link from 'next/link';
 import styles from "./Styles/Homepage.module.css";
@@ -10,6 +11,8 @@ import { useSelector, useDispatch} from "react-redux";
 import { asyncGetPopularMovies, asyncGetTrendingMovies, asyncGetMoviesDetails } from '@/store/Actions/movieActions';
 import {getAsyncTrendingTvShows} from '@/store/Actions/tvShowsAction';
 import { Progress } from "@/components/ui/progress";
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 
 
@@ -21,7 +24,7 @@ const page = () => {
   const router = useRouter()
   const [Flag, setFlag] = useState(0);
     // console.log(Movies);
-    // console.log(TrendingMovies);
+    console.log(TrendingMovies);
     console.log(TrendingTVshow);
     // console.log(errors);
   
@@ -34,6 +37,7 @@ const page = () => {
 
    useEffect(() => {
     dispatch(asyncGetTrendingMovies());
+    dispatch(getAsyncTrendingTvShows());
 
    }, [TrendingMovies]);
 
@@ -127,7 +131,7 @@ const page = () => {
           </div>
           <div className={styles.trendingBox}>
             <div className={styles.trending}>
-              <h2>Trending</h2>
+              <h2>Trending Movies</h2>
               <div onClick={toggleHandler} className={styles.toggle}>
                 <div ref={togglerDiv} className={styles.toggler} style={{ width: togglerWidth }}>
                   <h3 ref={togglerText}>{flag === 0 ? 'Today' : 'This Week'}</h3>
@@ -143,9 +147,21 @@ const page = () => {
                     <Link href={`/movie/${movie.id}`}>
                       <div className={styles.moviePoster}>
                         <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}?api_key=cb5b8941851804e0ea85baa6348e29b3`} alt="" />
-                        <div className={styles.vote}>
-                          <Progress value={100} />
-                          {Math.floor(movie.vote_average*10)} <sup>%</sup>
+                        <div className={styles.vote} style={{width:50 , height: 50}}>
+                          <CircularProgressbar 
+                            value={Math.floor(movie.vote_average*10)}
+                            text={`${Math.floor(movie.vote_average*10)}%`}
+                            styles={buildStyles({
+                              pathColor: `#fff, ${
+                                Math.floor(movie.vote_average*10)/ 100
+                              })`,
+                              textColor:'#fff',
+                              trailColor: '#d6d6d6',
+                              backgroundColor: '#3e98c7'
+                            })}
+                          />
+                            {/* {Math.floor(tvShows.vote_average*10)} <sup>%</sup> */}
+
                         </div>
                       </div>
                       <h1>{movie.title}</h1>
@@ -158,21 +174,34 @@ const page = () => {
               })}
             </div>
 
+              <h2 className={styles.trendingTv}>Trending TvShows</h2>
             <div className={styles.movies}>
-              {TrendingTVshow.map((tv, index)=>{
+              {TrendingTVshow.map((tvShows, index)=>{
                 return(
-                  <div key={tv.id} className={styles.movieBox}>
-                    <Link href={`/tv/${tv.id}`}>
+                  <div key={tvShows.id} className={styles.movieBox}>
+                    <Link href={`/tvShow/${tvShows.id}`}>
                       <div className={styles.moviePoster}>
-                        <img src={`https://image.tmdb.org/t/p/w500/${tv.poster_path}?api_key=cb5b8941851804e0ea85baa6348e29b3`} alt="" />
-                        <div className={styles.vote}>
-                          <Progress value={100} />
-                          {Math.floor(tv.vote_average*10)} <sup>%</sup>
+                        <img src={`https://image.tmdb.org/t/p/w500/${tvShows.poster_path}?api_key=cb5b8941851804e0ea85baa6348e29b3`} alt="" />
+                        <div className={styles.vote} style={{width:50 , height: 50}}>
+                          <CircularProgressbar 
+                            value={Math.floor(tvShows.vote_average*10)}
+                            text={`${Math.floor(tvShows.vote_average*10)}%`}
+                            styles={buildStyles({
+                              pathColor: `#fff, ${
+                                Math.floor(tvShows.vote_average*10)/ 100
+                              })`,
+                              textColor:'#fff',
+                              trailColor: '#d6d6d6',
+                              backgroundColor: '#3e98c7'
+                            })}
+                          />
+                            {/* {Math.floor(tvShows.vote_average*10)} <sup>%</sup> */}
+
                         </div>
                       </div>
-                      <h1>{tv.title}</h1>
+                      <h1>{tvShows.name}</h1>
                     </Link>
-                    <small>{covertNumericToDate(tv.release_date)}</small>
+                    <small>{covertNumericToDate(tvShows.first_air_date)}</small>
                     {/* <p>Video Available: ${movie.video ? "Yes" : "No"}</p> */}
                    
                   </div>

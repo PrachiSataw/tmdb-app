@@ -29,9 +29,11 @@ export const asyncGetTrendingMovies = () => async (dispatch, getState) =>{
 }
 
 
-export const asyncGetMoviesDetails = (movieId) => async (dispatch,getState) => {
+export const asyncGetMoviesDetails = (movie_id) => async (dispatch,getState) => {
     try {
-        const {data} = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=cb5b8941851804e0ea85baa6348e29b3`)
+        const {data} = await axios.get(
+            `https://api.themoviedb.org/3/movie/${movie_id}?api_key=cb5b8941851804e0ea85baa6348e29b3&append_to_response=videos`
+            )
         console.log("API Response Data:", data); // Add this line
         dispatch(saveMovieDetails(data))
     } catch (error) {

@@ -9,11 +9,18 @@ import { AiFillHeart } from "react-icons/ai";
 import { BiSolidBookmark,BiSolidStar } from "react-icons/bi";
 import { BsDot } from "react-icons/bs";
 import { BiPlay } from "react-icons/bi"
+import { FaTimes } from 'react-icons/fa';
 import {RxCross2} from "react-icons";
 import { useDispatch, useSelector } from "react-redux"
 import Nav from "@/components/Nav"
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import dynamic from "next/dynamic";
 
-const page = (props) => {
+const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
+
+const Page = ({params}) => {
+  console.log("this is id", params.id)
   const [crew, setcrew] = useState([])
   const [cast, setcast] = useState([])
   const [trailer, setTrailer] = useState(null);
@@ -21,16 +28,19 @@ const page = (props) => {
   const video = useRef(null)
   const iframeVideo = useRef(null) 
 
-  const {movieId} = props.params
   const {MovieDetails} = useSelector((state) => state.MovieReducer)
+  const [showPlayer, setShowPlayer] = useState(false);
+  console.log(  "triiirrrrrrrrrrr",trailer);
   console.log(MovieDetails);
   const dispatch = useDispatch()
 
   useEffect(()=>{
-    console.log(movieId)
-    dispatch(asyncGetMoviesDetails(movieId))
+    // console.log(movie_id)
+    // console.log(asyncGetMoviesDetails)
+    dispatch(asyncGetMoviesDetails(params.id))
     castNcrew()
   },[])
+  
 
   // convert minutes into hours
 
@@ -40,25 +50,31 @@ const page = (props) => {
 
     return `${hours}h ${remainingMinutes}m`;
   };
+
   
-  const trailerData = {
-    key: 'your-trailer-key-here', // Replace with the actual trailer key
-  };
-  // After fetching trailer data and getting the key
-   setTrailer(trailerData); // Assuming trailerData is the object with the 'key' property
+   useEffect(() => {
+    const trailerIndex = MovieDetails?.videos?.results?.findIndex(
+      (element) => element.type === "Trailer"
+    );
+    const trailerURL = `https://www.youtube.com/watch?v=${
+      MovieDetails?.videos?.results[trailerIndex || 0]?.key
+    }`;
+    setTrailer(trailerURL);
+  }, [MovieDetails]);
+
   const trailerOpenHandler = () => {
     video.current.style.display = "flex"
-    iframeVideo.current.src = `https://www.youtube.com/embed/${trailer?.key}`
+    setShowPlayer(true)
   }
 
   const trailerCloseHandler = () => {
     video.current.style.display = "none"
-    iframeVideo.current.src = "#"
+    setShowPlayer(false)
   }
 
-  const errorHandler = () => {
-    iframeVideo.current.style.display = "none"
-  }
+  // const errorHandler = () => {
+  //   iframeVideo.current.style.display = "none"
+  // }
 
   const imgErrorHandler = (e) => {
     e.target.style.display = "none"
@@ -67,12 +83,12 @@ const page = (props) => {
    // crew and cast data
 
    const castNcrew = async () => {
-    const {data} = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=cb5b8941851804e0ea85baa6348e29b3`)
+    const {data} = await axios.get(`https://api.themoviedb.org/3/movie/${params.id}/credits?api_key=cb5b8941851804e0ea85baa6348e29b3`)
     setcrew(data.crew.filter((crew) => crew.job === "Writer" || crew.job === "Director"));
     setcast(data.cast)
   }
 
-    console.log(cast);
+    // console.log(cast);
 
 
   
@@ -94,7 +110,19 @@ const page = (props) => {
             </div>
             <div className={styles.userScore}>
               <div className={styles.vote}>
-                {Math.floor(MovieDetails.vote_average*10)} <sup>%</sup>
+                {/* {Math.floor(MovieDetails.vote_average*10)} <sup>%</sup> */}
+                <CircularProgressbar 
+                            value={Math.floor(MovieDetails.vote_average*10)}
+                            text={`${Math.floor(MovieDetails.vote_average*10)}%`}
+                            styles={buildStyles({
+                              pathColor: `#fff, ${
+                                Math.floor(MovieDetails.vote_average*10)/ 100
+                              })`,
+                              textColor:'#fff',
+                              trailColor: '#d6d6d6',
+                              backgroundColor: '#3e98c7'
+                            })}
+                          />
               </div>
               <h3>User<br />Score</h3>
               <div className={styles.icons}>
@@ -137,9 +165,16 @@ const page = (props) => {
       </div>
       <div ref={video} className={styles.video}>
         <div className={styles.videoContainer}>
-          <RxCross2 onClick={trailerCloseHandler} className={styles.cross} />
+          <FaTimes onClick={trailerCloseHandler} className={styles.cross} />
           <div className={styles.player}>
-            <iframe onError={errorHandler} ref={iframeVideo} src={`https://www.youtube.com/embed/${trailer?.key}`} title="youtube video" allowFullScreen ></iframe>
+          <ReactPlayer
+            url={trailer}
+            width="100%"
+            height="100%"
+            controls={true}
+            playsinline={true}
+            playing={showPlayer}
+          />
           </div>
         </div>
       </div>
@@ -187,4 +222,4 @@ const page = (props) => {
   )
 }
 
-export default page
+export default Page;

@@ -73,6 +73,11 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 600;
 }
+.trendingTv{
+    padding: 0 30px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 600;
+}
 .toggle{
     position: relative;
     display: flex;
@@ -135,6 +140,7 @@
     height: 19vmax;
     border-radius: 10px;
     margin-top: 3vmax;
+    /* margin-left: 3vmax; */
 }
 
 .moviePoster img{
@@ -153,16 +159,20 @@
     height: 3vmax;
     background-color: #03254180;
     border-radius: 50%;
+    /* border: 5px solid green; */
     z-index: 99;
     display: flex;
     align-items: center;
     justify-content: center;
+    /* flex-wrap: wrap; */
     color: #fff;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 600;
     font-size: 0.8rem;
 }
-
+.circular{
+    position: relative;
+}
 .movieBox a{
     text-decoration: none;
     color: #000;
@@ -248,4 +258,184 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 1.4rem;
     white-space: nowrap;
+}
+
+@media(max-width: 768px) {
+    .overlay{
+        padding: 0 3vmax;
+    }
+    .welcome{
+        font-size: 2.5rem;
+    }
+    .millions{
+        font-size: 1rem;
+    }
+    
+    .search form{
+        display: flex;
+        margin-top: 2vmax;
+    }
+    
+    .search form input{
+        padding: 15px 10px;
+    }
+    /* .search button{
+        padding: 10px 30px;
+    } */
+    /* .trendingBox{
+        padding-top: 3vmax;
+    }
+    .trending{
+        display: flex;
+        gap: 30px;
+        padding: 0 30px;
+    } */
+    /* .trendingTv{
+        padding: 0 30px;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-weight: 600;
+    } */
+    .toggle{
+        width: 17vmax;
+        padding: 1px 20px;
+    }
+    .toggler{
+        width: 18vmax;
+        background-color: #032541;
+    }
+    
+    .toggler h3{
+        font-size: 1rem;
+    }
+    .toggle p{
+        font-size: 1.2rem;
+    }    
+    /* .vote{
+        position: absolute;
+        bottom: -10%;
+        left: 8%;
+        font-size: 0.8rem;
+    } */
+
+    /* footer ------  */
+    .footer{
+       padding: 8vw 0vw;
+       padding-bottom: 15vw;
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       justify-content: center;
+    }
+    
+    /* .left{
+        background-color: #01B4E4;
+    } */
+    .columns{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        /* gap: 10px; */
+    }
+    .columns h3{
+        font-size: 1rem;
+    }
+    
+    .columns ul li{
+        max-width: 120px;
+    }
+    .columns ul li a{
+        list-style: none;
+        color: #fff;
+        text-decoration: none;
+        text-align: start;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: 1.2rem;
+        white-space: nowrap;
+    }
+}
+
+
+@media(max-width: 468px) {
+    .overlay{
+        padding: 0 3vmax;
+    }
+    .welcome{
+        font-size: 2.3rem;
+    }
+    .millions{
+        font-size: 0.7rem;
+    }
+    
+    .search form{
+        display: flex;
+        margin-top: 2vmax;
+    }
+    
+    .search form input{
+        padding: 15px 0px;
+    }
+    .search button{
+        padding: 10px 10px;
+    }
+    /* .trendingBox{
+        padding-top: 3vmax;
+    }/*
+    /* .trendingTv{
+        padding: 0 30px;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-weight: 600;
+    } */
+
+    .trending{
+        display: flex;
+        gap: 20px;
+        padding: 0 5px;
+    }  
+
+    .toggle{
+        width: 20vmax;
+        height: 5vmax;
+        margin-top: 18px;
+        padding: 5px 20px;
+    }
+    .toggler{
+        width: 50vmax;
+        padding: 0vw 4vw;
+        background-color: #032541;
+    }
+    
+    .toggler h3{
+        font-size: 1rem;
+    }
+    .toggle p{
+        font-size: 0.9rem;
+    }    
+    /* footer ------  */
+    .footer{
+       padding: 20vw 0vw;
+       padding-bottom: 15vw;
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       justify-content: center;
+    }
+    .columns{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        /* padding: 0vw 4vw; */
+    }
+    .columns h3{
+        font-size: 0.8rem;
+    }
+    
+    .columns ul li{
+        max-width: 50px;
+    }
+    .columns ul li a{
+        font-size: 0.5rem;
+        white-space: nowrap;
+    }
 }

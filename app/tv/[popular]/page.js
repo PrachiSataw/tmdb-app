@@ -3,7 +3,7 @@
 import React from 'react'
 import styles from "@/app/Styles/Movies.module.css"
 import Nav from '@/components/Nav';
-import { changepage } from '@/store/Reducers/MovieReducer';
+import { changepage } from '@/store/Reducers/TvShowsReducer';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ReactPaginate from "react-paginate";
@@ -12,14 +12,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAsyncTvShows } from "@/store/Actions/tvShowsAction";
 import { data } from 'autoprefixer';
 
-const page = ({params}) => {
+const TvPage = ({params}) => {
     const [click, setclick] = useState(params.popular)
-    const {TvShows} = useSelector((state) => state.TvShowsReducer)
+    console.log(params.popular);
+    const {TvShows, page} = useSelector((state) => state.TvShowsReducer) || { TvShows: [] };
+    console.log(TvShows);
     const dispatch = useDispatch();
 
     useEffect(() =>{
-        dispatch(getAsyncTvShows(params.popular))
-    }, [TvShows])
+        dispatch(getAsyncTvShows(params.popular, 1));
+        // setclick(params.popular)
+    }, [TvShows,page])
     console.log(TvShows)
 
 
@@ -63,20 +66,29 @@ const page = ({params}) => {
     <div className={styles.main}>
         <Nav /> 
         <div className={styles.container}>
-              {TvShows.map((tvShows,index) => {
-                return <div key={tvShows.id} className={styles.card}>
-                    <Link href={`/tvShow/${tvShows.id}`}>
-                        <div className={styles.movieImage}>
-                            <img src={`https://image.tmdb.org/t/p/w500//${tvShows.poster_path}?api_key=cb5b8941851804e0ea85baa6348e29b3`} alt="" />
-                        </div>
-                    </Link>
-                    <div className={styles.movieDetails}>
-                        <Link href={`/tvShow/${tvShows.id}`}><h3>{tvShows.name}</h3></Link>
-                        <p>{convertNumericToDate(tvShows.first_air_date)}</p>
-                    </div>
-                </div>
-              })}
-        </div> 
+        {TvShows ? (
+               TvShows.map((tvShows, index) => (
+              <div key={tvShows.id} className={styles.card}>
+              <Link href={`/tvShow/${tvShows.id}`}>
+             <div className={styles.movieImage}>
+             <img
+              src={`https://image.tmdb.org/t/p/w500//${tvShows.poster_path}?api_key=cb5b8941851804e0ea85baa6348e29b3`}
+              alt=""
+            />
+             </div>
+            </Link>
+        <div className={styles.movieDetails}>
+          <Link href={`/tvShow/${tvShows.id}`}>
+            <h3>{tvShows.name}</h3>
+          </Link>
+          <p>{convertNumericToDate(tvShows.first_air_date)}</p>
+        </div>
+      </div>
+      ))
+    ) : (
+    <p>Loading TV shows...</p>
+    )}
+    </div> 
         <ReactPaginate
         className={styles.pagination}
         activeClassName={styles.selected}
@@ -150,4 +162,20 @@ const page = ({params}) => {
   )
 }
 
-export default page
+export default TvPage
+
+
+
+// {TvShows.map((tvShows,index) => {
+//     return <div key={tvShows.id} className={styles.card}>
+//         <Link href={`/tvShow/${tvShows.id}`}>
+//             <div className={styles.movieImage}>
+//                 <img src={`https://image.tmdb.org/t/p/w500//${tvShows.poster_path}?api_key=cb5b8941851804e0ea85baa6348e29b3`} alt="" />
+//             </div>
+//         </Link>
+//         <div className={styles.movieDetails}>
+//             <Link href={`/tvShow/${tvShows.id}`}><h3>{tvShows.name}</h3></Link>
+//             <p>{convertNumericToDate(tvShows.first_air_date)}</p>
+//         </div>
+//     </div>
+//   })}

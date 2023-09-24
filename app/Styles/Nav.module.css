@@ -104,3 +104,26 @@
     color: #01B4E4;
     cursor: pointer;
 }
+
+@media (max-width: 468px) {
+    .nav{
+        padding: 0.8vmax;
+        display: flex;
+        flex-direction: column;
+    }
+    .leftNav{
+        gap: 18px;
+        padding: 0.5vw ;
+    }
+    .img{
+        height: 10px;
+    }
+    .dropdown{
+        width: 15vmax;    
+    }
+    .rightNav{
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+}

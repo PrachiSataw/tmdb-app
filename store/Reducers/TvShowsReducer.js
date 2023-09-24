@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     TvShows: [],
     TrendingTVshow: [],
-    TvShowsDetails: {}
+    TvShowsDetails: {},
+    page: 1,
 }
 
 export const TvShowsReducer = createSlice({ 
@@ -18,9 +19,12 @@ export const TvShowsReducer = createSlice({
         },
         saveTvShowsDetails: (state,action) => {
             state.TvShowsDetails = action.payload
-        }
+        },
+        changepage: (state, action) => {
+            state.page += action.payload;
+          },
     }
 })
 
-export const {saveTvShows,saveTvShowsDetails} = TvShowsReducer.actions
+export const {saveTvShows,saveTrendingTvShows,changepage, saveTvShowsDetails} = TvShowsReducer.actions
 export default TvShowsReducer.reducer
