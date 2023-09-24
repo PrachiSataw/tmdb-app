@@ -10,7 +10,7 @@ import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from 'react-redux';
 // import InfiniteScroll from "react-infinite-scroll-component";
 import { getAsyncTvShows } from "@/store/Actions/tvShowsAction";
-import { data } from 'autoprefixer';
+
 
 const TvPage = ({params}) => {
     const [click, setclick] = useState(params.popular)
